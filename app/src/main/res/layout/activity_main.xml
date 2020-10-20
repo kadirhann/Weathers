@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.apps.weather.util.ExtensionsKt" />
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.apps.weather.ui.view.MainViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        tools:context="com.apps.weather.ui.MainActivity">
+
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:elevation="5dp"
+            android:background="@color/colorWhite">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/global_margin_16"
+                android:textColor="@color/colorDark"
+                android:textSize="20dp"
+                android:text="@string/app_name"
+                android:fontFamily="@font/sfpro_semi_bold" />
+
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:background="@color/colorWhiteAlpha"
+            android:layoutAnimation="@anim/layout_right_to_left_anim"
+            android:animateLayoutChanges="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/global_margin_20"
+                    android:layout_marginBottom="@dimen/global_margin_12"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerViewContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <include layout="@layout/item_skeleton_info" />
+
+                            <include layout="@layout/item_skeleton_daily" />
+
+                            <include layout="@layout/item_skeleton_days" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_margin="@dimen/global_margin_16"
+                    app:cardCornerRadius="12dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imageViewIcon"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/global_margin_24"
+                            app:url="@{viewModel.todayLiveData.weather_state_abbr}" />
+
+                        <LinearLayout
+                            android:id="@+id/lineerLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/global_margin_24"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/sfpro_semi_bold"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="28dp"
+                                android:text="@{(int)viewModel.todayLiveData.the_temp + ` ° C`}"
+                                tools:text="33 C" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/colorItem"
+                                android:fontFamily="@font/sfpro_semi_bold"
+                                android:includeFontPadding="false"
+                                app:convertTempDest="@{viewModel.todayLiveData.weather_state_abbr}"
+                                tools:text="Açık Güneşli"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:textSize="14dp"
+                                android:textColor="@color/colorAccent"
+                                android:fontFamily="@font/sfpro_regular"
+                                android:includeFontPadding="false"
+                                app:formatTodayDate="@{viewModel.todayLiveData.applicable_date}"
+                                tools:text="07/10/2020"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@id/lineerLayout"
+                            android:layout_marginTop="@dimen/global_margin_24"
+                            android:layout_marginBottom="@dimen/global_margin_24"
+                            android:layout_marginLeft="@dimen/global_margin_24"
+                            android:background="#eeeeee"/>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/global_margin_24"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14dp"
+                                android:textColor="@color/colorItem"
+                                android:fontFamily="@font/sfpro_regular"
+                                android:includeFontPadding="false"
+                                android:text="@{`↑ ` + (int)viewModel.todayLiveData.max_temp + ` ° C`}"
+                                tools:text="↑ 33 C"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/global_margin_12"
+                                android:textSize="14dp"
+                                android:textColor="@color/colorItem"
+                                android:fontFamily="@font/sfpro_regular"
+                                android:includeFontPadding="false"
+                                android:text="@{`↑ ` + (int)viewModel.todayLiveData.min_temp + ` ° C`}"
+                                tools:text="↓ 33 C"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/global_margin_24"
+                    android:layout_marginTop="@dimen/global_margin_12"
+                    android:text="@string/main_today_data_text"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorItem"
+                    android:fontFamily="@font/sfpro_semi_bold"
+                    android:includeFontPadding="false"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_margin="@dimen/global_margin_20"
+                    app:cardCornerRadius="12dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/global_margin_20"
+                            android:layout_marginLeft="@dimen/global_margin_20">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:src="@drawable/ic_wind_icn"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/main_today_data_wind"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_semi_bold"
+                                    android:includeFontPadding="false"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_regular"
+                                    android:includeFontPadding="false"
+                                    android:text="@{(int)viewModel.todayLiveData.wind_speed + `  mhs/s`}"
+                                    tools:text="16 mhs/s"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lineerLayoutVisibility"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="@dimen/global_margin_20"
+                            android:layout_marginRight="33dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:src="@drawable/ic_visibility_icn"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/main_today_data_visibility"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_semi_bold"
+                                    android:includeFontPadding="false"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_regular"
+                                    android:includeFontPadding="false"
+                                    android:text="@{(int)viewModel.todayLiveData.visibility + ` km`}"
+                                    tools:text="16 km"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="@dimen/global_margin_20"
+                            android:layout_marginLeft="@dimen/global_margin_20">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:src="@drawable/ic_humidity_icn"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/main_today_data_humidity"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_semi_bold"
+                                    android:includeFontPadding="false"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_regular"
+                                    android:includeFontPadding="false"
+                                    android:text="@{`% ` + (int)viewModel.todayLiveData.humidity}"
+                                    tools:text="%16"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="@dimen/global_margin_20"
+                            android:layout_marginRight="@dimen/global_margin_20"
+                            android:layout_alignLeft="@id/lineerLayoutVisibility">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:src="@drawable/ic_pressure_icn"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/global_margin_8"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/main_today_data_pressure"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_semi_bold"
+                                    android:includeFontPadding="false"/>
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/colorItem"
+                                    android:fontFamily="@font/sfpro_regular"
+                                    android:includeFontPadding="false"
+                                    android:text="@{(int)viewModel.todayLiveData.the_temp + ` P`}"
+                                    tools:text="16 P"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/global_margin_24"
+                    android:layout_marginTop="@dimen/global_margin_12"
+                    android:text="@string/main_other_date_text"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorItem"
+                    android:fontFamily="@font/sfpro_semi_bold"
+                    android:includeFontPadding="false"/>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/global_margin_20"
+                    app:cardCornerRadius="12dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewDays"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </RelativeLayout>
+</layout>

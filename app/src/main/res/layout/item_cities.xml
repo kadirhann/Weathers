@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewState"
+            type="com.apps.weather.data.model.Location" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_12"
+            android:layout_marginLeft="@dimen/global_margin_16"
+            android:layout_marginBottom="@dimen/global_margin_5"
+            android:background="@drawable/rectangle_common_menu_passive">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/colorItem"
+                android:paddingTop="@dimen/global_margin_8"
+                android:paddingBottom="@dimen/global_margin_8"
+                android:paddingLeft="@dimen/global_margin_12"
+                android:paddingRight="@dimen/global_margin_12"
+                android:textSize="15dp"
+                android:fontFamily="@font/sfpro_regular"
+                android:text="@{viewState.title}"
+                tools:text="News"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

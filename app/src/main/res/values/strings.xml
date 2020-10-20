@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Weathers</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_today_data_text">Daily Data</string>
+    <string name="main_other_date_text">Other days</string>
+    <string name="main_today_data_wind">Wind</string>
+    <string name="main_today_data_visibility">Visiblity</string>
+    <string name="main_today_data_pressure">Pressure</string>
+    <string name="main_today_data_humidity">Humidity</string>
+
+    <string name="settings_button_ok">Ok</string>
+    <string name="network_error">Server Connection Error</string>
+    <string name="gps_error">GPS Connection Error</string>
+    <string name="main_base_url">https://www.metaweather.com/api/location/</string>
+</resources>

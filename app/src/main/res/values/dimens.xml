@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="global_margin_5">5dp</dimen>
+    <dimen name="global_margin_8">8dp</dimen>
+    <dimen name="global_margin_12">12dp</dimen>
+    <dimen name="global_margin_16">16dp</dimen>
+    <dimen name="global_margin_20">20dp</dimen>
+    <dimen name="global_margin_24">24dp</dimen>
+</resources>

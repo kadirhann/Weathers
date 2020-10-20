@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.apps.weather.util.ExtensionsKt" />
+        <import type="android.view.View"/>
+        <variable
+            name="viewState"
+            type="com.apps.weather.data.model.LocationResult" />
+    </data>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <RelativeLayout
+          android:id="@+id/container"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:foreground="?attr/selectableItemBackgroundBorderless">
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+              <androidx.appcompat.widget.AppCompatTextView
+                  android:id="@+id/textViewDay"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/colorItem"
+                  android:layout_margin="@dimen/global_margin_16"
+                  android:textSize="13dp"
+                  android:fontFamily="@font/sfpro_semi_bold"
+                  android:includeFontPadding="false"
+                  app:formatDate="@{viewState.applicable_date}"
+                  tools:text="2020-10-16"/>
+
+              <androidx.appcompat.widget.AppCompatTextView
+                  android:id="@+id/textViewMinTemp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="@dimen/global_margin_16"
+                  android:layout_alignParentRight="true"
+                  android:fontFamily="@font/sfpro_regular"
+                  android:includeFontPadding="false"
+                  android:text="@{(int)viewState.min_temp  + ` ° C`}"
+                  tools:text="13 C"/>
+
+
+              <androidx.appcompat.widget.AppCompatTextView
+                  android:id="@+id/textViewMaxTemp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_toLeftOf="@id/textViewMinTemp"
+                  android:layout_margin="@dimen/global_margin_16"
+                  android:fontFamily="@font/sfpro_semi_bold"
+                  android:includeFontPadding="false"
+                  android:textColor="@color/colorItem"
+                  android:text="@{(int)viewState.max_temp  + ` ° C`}"
+                  tools:text="23°"/>
+
+              <androidx.appcompat.widget.AppCompatImageView
+                  android:id="@+id/imageViewIcon"
+                  android:layout_width="30dp"
+                  android:layout_height="30dp"
+                  android:layout_toLeftOf="@id/textViewMaxTemp"
+                  android:layout_marginRight="20dp"
+                  android:layout_centerVertical="true"
+                  app:url="@{viewState.weather_state_abbr}"/>
+
+              <View
+                  android:id="@+id/viewBorder"
+                  android:layout_width="match_parent"
+                  android:layout_height="0.5dp"
+                  android:background="#365A5A5A"/>
+
+          </RelativeLayout>
+
+
+      </RelativeLayout>
+
+  </RelativeLayout>
+
+</layout>
